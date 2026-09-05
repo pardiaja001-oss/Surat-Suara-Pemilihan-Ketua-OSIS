@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-Voting OSIS SMP Negeri 4 Air Sugihan 2026-2027</title>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-100 min-h-screen flex flex-col font-sans text-slate-800">
+
+  <!-- Header -->
+  <header class="bg-blue-800 text-white shadow-lg sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-2">
+      <div class="text-center md:text-left">
+        <h1 class="text-xl md:text-2xl font-bold tracking-wide">SMP NEGERI 4 AIR SUGIHAN</h1>
+        <p class="text-xs md:text-sm text-blue-200">Pemilihan Ketua & Wakil Ketua OSIS Periode 2026-2027</p>
+      </div>
+      <div id="voter-info" class="hidden text-xs bg-blue-900 px-3 py-1.5 rounded-full text-blue-200 flex items-center gap-2">
+        <i class="fa-solid fa-user-check text-green-400"></i>
+        <span>NIS: <strong id="current-nis" class="text-white"></strong></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-1 max-w-6xl w-full mx-auto p-4 md:p-6 flex flex-col justify-center">
+
+    <!-- STEP 1: FORM LOGIN NIS -->
+    <section id="step-login" class="max-w-md w-full mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-xl border border-slate-200 text-center">
+      <div class="w-16 h-16 bg-blue-100 text-blue-800 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+        <i class="fa-solid fa-vote-yea"></i>
+      </div>
+      <h2 class="text-2xl font-bold text-slate-800 mb-2">Selamat Datang Pemilih</h2>
+      <p class="text-sm text-slate-500 mb-6">Masukkan Nomor Induk Siswa (NIS) Anda untuk melanjutkan voting.</p>
+
+      <form id="form-login" onsubmit="handleLogin(event)" class="space-y-4">
+        <div class="text-left">
+          <label for="nis-input" class="block text-sm font-semibold text-slate-700 mb-1">Nomor Induk Siswa (NIS)</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+              <i class="fa-solid fa-id-card"></i>
+            </span>
+            <input type="text" id="nis-input" placeholder="Masukkan NIS (contoh: 1050)" required
+              class="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none transition text-slate-800 font-medium">
+          </div>
+          <p id="login-error" class="text-red-500 text-xs mt-2 hidden flex items-center gap-1">
+            <i class="fa-solid fa-circle-exclamation"></i> <span id="error-text"></span>
+          </p>
+        </div>
+        <button type="submit" 
+          class="w-full bg-blue-700 hover:bg-blue-800 active:bg-blue-900 text-white font-bold py-3 rounded-xl transition duration-200 shadow-lg shadow-blue-700/30 flex items-center justify-center gap-2">
+          <span>Masuk Surat Suara</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </form>
+    </section>
+
+    <!-- STEP 2: SURAT SUARA DIGITAL -->
+    <section id="step-voting" class="hidden space-y-6">
+      <div class="text-center max-w-2xl mx-auto">
+        <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800">SURAT SUARA DIGITAL</h2>
+        <p class="text-sm md:text-base text-slate-600 mt-1">Gunakan hak pilih Anda dengan bijak. Silakan pilih salah satu pasangan calon di bawah ini.</p>
+      </div>
+
+      <!-- Grid Cards Paslon -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <!-- Paslon 01 -->
+        <div class="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden flex flex-col hover:shadow-xl transition duration-300">
+          <div class="bg-blue-700 text-white p-3 text-center relative">
+            <span class="text-xs font-semibold tracking-wider uppercase opacity-80">Nomor Urut</span>
+            <div class="text-3xl font-extrabold">01</div>
+          </div>
+          <div class="relative h-64 bg-slate-200">
+            <img src="paslon1.jpg" alt="Fahri & Al_Fahri" class="w-full h-full object-cover object-top" onerror="this.src='https://via.placeholder.com/400x500?text=Paslon+01'">
+          </div>
+          <div class="p-5 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="text-xl font-bold text-slate-900 text-center mb-3">Fahri & Al_Fahri</h3>
+              <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-100 text-xs text-slate-600 leading-relaxed mb-4">
+                <strong class="text-blue-800 block mb-1 font-semibold">VISI:</strong>
+                "Terwujudnya Siswa SMP yang berakhlak, berprestasi, disiplin, berbudaya lingkungan dan berwawasan luas"
+              </div>
+            </div>
+            <button onclick="openModal('01', 'Fahri & Al_Fahri')" 
+              class="w-full bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-bold py-3 rounded-xl transition flex items-center justify-center gap-2 shadow-md">
+              <i class="fa-solid fa-check-circle"></i> PILIH PASLON 01
+            </button>
+          </div>
+        </div>
+
+        <!-- Paslon 02 -->
+        <div class="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden flex flex-col hover:shadow-xl transition duration-300">
+          <div class="bg-blue-700 text-white p-3 text-center relative">
+            <span class="text-xs font-semibold tracking-wider uppercase opacity-80">Nomor Urut</span>
+            <div class="text-3xl font-extrabold">02</div>
+          </div>
+          <div class="relative h-64 bg-slate-200">
+            <img src="paslon2.jpg" alt="Rommy & Ahyar" class="w-full h-full object-cover object-top" onerror="this.src='https://via.placeholder.com/400x500?text=Paslon+02'">
+          </div>
+          <div class="p-5 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="text-xl font-bold text-slate-900 text-center mb-3">Rommy & Ahyar</h3>
+              <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-100 text-xs text-slate-600 leading-relaxed mb-4">
+                <strong class="text-blue-800 block mb-1 font-semibold">VISI:</strong>
+                "Mewujudkan OSIS sebagai wadah pembetulan generasi muda yang beriman, cerdas teknologi, berkarakter mulia, serta aktif menjaga kebersihan lingkungan sekolah"
+              </div>
+            </div>
+            <button onclick="openModal('02', 'Rommy & Ahyar')" 
+              class="w-full bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-bold py-3 rounded-xl transition flex items-center justify-center gap-2 shadow-md">
+              <i class="fa-solid fa-check-circle"></i> PILIH PASLON 02
+            </button>
+          </div>
+        </div>
+
+        <!-- Paslon 03 -->
+        <div class="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden flex flex-col hover:shadow-xl transition duration-300">
+          <div class="bg-blue-700 text-white p-3 text-center relative">
+            <span class="text-xs font-semibold tracking-wider uppercase opacity-80">Nomor Urut</span>
+            <div class="text-3xl font-extrabold">03</div>
+          </div>
+          <div class="relative h-64 bg-slate-200">
+            <img src="paslon3.jpg" alt="Dian & Davin" class="w-full h-full object-cover object-top" onerror="this.src='https://via.placeholder.com/400x500?text=Paslon+03'">
+          </div>
+          <div class="p-5 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="text-xl font-bold text-slate-900 text-center mb-3">Dian & Davin</h3>
+              <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-100 text-xs text-slate-600 leading-relaxed mb-4">
+                <strong class="text-blue-800 block mb-1 font-semibold">VISI:</strong>
+                "Menjadi OSIS SMP sebagai wadah yang berkarakter, berprestasi dan menginspirasi dalam mewujudkan siswa yang beriman, berilmu dan berakhlak mulia"
+              </div>
+            </div>
+            <button onclick="openModal('03', 'Dian & Davin')" 
+              class="w-full bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-bold py-3 rounded-xl transition flex items-center justify-center gap-2 shadow-md">
+              <i class="fa-solid fa-check-circle"></i> PILIH PASLON 03
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- STEP 4: LAYAR SUKSES & QUICK COUNT -->
+    <section id="step-result" class="hidden max-w-3xl w-full mx-auto space-y-6">
+      <div class="bg-white p-6 md:p-8 rounded-2xl shadow-xl border border-slate-200 text-center">
+        <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
+          <i class="fa-solid fa-circle-check"></i>
+        </div>
+        <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800">Suara Anda Berhasil Disimpan!</h2>
+        <p class="text-slate-600 mt-2 text-sm md:text-base">Terima kasih telah berpartisipasi aktif dalam Pemilihan Ketua OSIS SMP Negeri 4 Air Sugihan Periode 2026-2027.</p>
+      </div>
+
+      <!-- Real-time Quick Count -->
+      <div class="bg-white p-6 md:p-8 rounded-2xl shadow-xl border border-slate-200 space-y-6">
+        <div class="flex justify-between items-center border-b pb-4">
+          <div>
+            <h3 class="text-lg md:text-xl font-bold text-slate-800">Hasil Sementara (Quick Count)</h3>
+            <p class="text-xs text-slate-500">Perhitungan suara masuk secara real-time</p>
+          </div>
+          <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full flex items-center gap-1.5">
+            <i class="fa-solid fa-users text-blue-600"></i> Total Suara: <strong id="total-votes">0</strong>
+          </span>
+        </div>
+
+        <!-- Progress Bars -->
+        <div class="space-y-5">
+          <!-- Paslon 01 Progress -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between text-sm font-semibold text-slate-700">
+              <span>01. Fahri & Al_Fahri</span>
+              <span id="paslon1-stats">0 Suara (0%)</span>
+            </div>
+            <div class="w-full bg-slate-100 rounded-full h-4 overflow-hidden border border-slate-200 p-0.5">
+              <div id="paslon1-bar" class="bg-blue-600 h-full rounded-full transition-all duration-700 w-0"></div>
+            </div>
+          </div>
+
+          <!-- Paslon 02 Progress -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between text-sm font-semibold text-slate-700">
+              <span>02. Rommy & Ahyar</span>
+              <span id="paslon2-stats">0 Suara (0%)</span>
+            </div>
+            <div class="w-full bg-slate-100 rounded-full h-4 overflow-hidden border border-slate-200 p-0.5">
+              <div id="paslon2-bar" class="bg-emerald-600 h-full rounded-full transition-all duration-700 w-0"></div>
+            </div>
+          </div>
+
+          <!-- Paslon 03 Progress -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between text-sm font-semibold text-slate-700">
+              <span>03. Dian & Davin</span>
+              <span id="paslon3-stats">0 Suara (0%)</span>
+            </div>
+            <div class="w-full bg-slate-100 rounded-full h-4 overflow-hidden border border-slate-200 p-0.5">
+              <div id="paslon3-bar" class="bg-amber-500 h-full rounded-full transition-all duration-700 w-0"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-4 border-t text-center">
+          <button onclick="resetSession()" class="text-xs text-blue-600 hover:text-blue-800 font-semibold underline">
+            Kembali ke Halaman Login (Ganti NIS)
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- STEP 3: MODAL KONFIRMASI -->
+  <div id="modal-confirm" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-slate-100 transform transition-all scale-100">
+      <div class="text-center">
+        <div class="w-14 h-14 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto mb-3 text-2xl">
+          <i class="fa-solid fa-circle-question"></i>
+        </div>
+        <h3 class="text-xl font-bold text-slate-800">Konfirmasi Pilihan Anda</h3>
+        <p class="text-sm text-slate-600 mt-2">
+          Apakah Anda yakin ingin memilih Pasangan Calon berikut?
+        </p>
+      </div>
+
+      <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 text-center">
+        <span id="modal-paslon-number" class="text-xs font-bold text-blue-800 bg-blue-200 px-2.5 py-1 rounded-full uppercase tracking-wide">
+          Paslon 01
+        </span>
+        <h4 id="modal-paslon-name" class="text-lg font-extrabold text-slate-800 mt-2">Fahri & Al_Fahri</h4>
+      </div>
+
+      <p class="text-xs text-amber-700 bg-amber-50 p-2.5 rounded-lg border border-amber-200 text-center">
+        <i class="fa-solid fa-circle-info"></i> Pilihan yang sudah dikirim tidak dapat diubah kembali.
+      </p>
+
+      <div class="grid grid-cols-2 gap-3 pt-2">
+        <button onclick="closeModal()" 
+          class="w-full bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-2.5 rounded-xl transition text-sm">
+          Batal
+        </button>
+        <button onclick="submitVote()" 
+          class="w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-2.5 rounded-xl transition text-sm shadow-md">
+          Ya, Yakin
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-slate-800 text-slate-400 text-xs py-4 text-center border-t border-slate-700">
+    <p>&copy; 2026 E-Voting OSIS SMP Negeri 4 Air Sugihan. Hak Cipta Dilindungi.</p>
+  </footer>
+
+  <!-- JavaScript Logic -->
+  <script>
+    // Master Data NIS Siswa Terdaftar
+    const validNIS = [
+      "S01", "P02", "A03", "E04", "R05", "N06", "T07", "SM08", "FT09", "ST10", "AT11", "RW12", "RS13", "DV14", "JM15", "NH15", 
+      "16", "17", "1176", "1177", "1115", "1178", "1116", "1179", "1050", "1180", "1051", "1117", "1052", "1053", "1183", "1182", 
+      "1054", "1118", "1184", "1185", "1055", "1186", "1187", "1233", "1056", "1119", "1057", "1058", "1059", "1188", "1120", 
+      "1060", "1189", "1121", "1064", "1061", "1062", "1063", "1065", "1190", "1191", "1192", "1066", "1193", "1122", "1123", 
+      "1067", "1124", "1175", "1194", "1125", "1195", "1126", "1196", "1197", "1127", "1198", "1068", "1069", "1128", "1129", 
+      "1199", "1200", "1070", "1071", "1130", "1072", "1073", "1109", "1101", "1201", "1131", "1103", "1173", "1202", "1100", 
+      "1132", "1074", "1203", "1133", "1204", "1110", "1172", "1076", "1134", "1205", "1135", "1136", "1137", "1138", "1206", 
+      "1077", "1139", "1140", "1207", "1104", "1078", "1112", "1141", "1142", "1211", "1208", "1143", "1209", "1210", "1079", 
+      "1144", "1212", "1174", "1081", "1145", "1146", "1082", "1147", "1148", "1213", "1080", "1214", "1149", "1083", "1215", 
+      "1150", "1151", "1085", "1084", "1152", "1216", "1217", "1153", "1218", "1114", "1219", "1086", "1087", "1088", "1089", 
+      "1154", "1113", "1171", "1220", "1108", "1221", "1155", "1156", "1157", "1092", "1158", "1222", "1159", "1160", "1093", 
+      "1161", "1223", "1162", "1163", "1094", "1164", "1224", "1165", "1095", "1225", "1166", "1226", "1105", "1227", "1234", 
+      "1167", "1106", "1096", "1228", "1098", "1099", "1229", "1230", "1168", "1169", "1231", "1232"
+    ];
+
+    // State Variables
+    let currentNis = "";
+    let selectedPaslonId = "";
+    let selectedPaslonName = "";
+
+    // Inisialisasi Database Lokal di LocalStorage
+    function getVotedList() {
+      return JSON.parse(localStorage.getItem("voted_nis_list")) || [];
+    }
+
+    function getVoteCounts() {
+      return JSON.parse(localStorage.getItem("vote_counts")) || { "01": 0, "02": 0, "03": 0 };
+    }
+
+    // Handle Login
+    function handleLogin(e) {
+      e.preventDefault();
+      const nisInput = document.getElementById("nis-input").value.trim().toUpperCase();
+      const errorEl = document.getElementById("login-error");
+      const errorText = document.getElementById("error-text");
+
+      errorEl.classList.add("hidden");
+
+      // Validasi Apakah NIS Terdaftar
+      if (!validNIS.includes(nisInput)) {
+        errorText.innerText = "NIS tidak terdaftar! Periksa kembali nomor NIS Anda.";
+        errorEl.classList.remove("hidden");
+        return;
+      }
+
+      // Validasi Apakah NIS Sudah Pernah Voting
+      const votedList = getVotedList();
+      if (votedList.includes(nisInput)) {
+        errorText.innerText = "NIS ini sudah menggunakan hak pilih sebelumnya!";
+        errorEl.classList.remove("hidden");
+        return;
+      }
+
+      // Login Sukses
+      currentNis = nisInput;
+      document.getElementById("current-nis").innerText = currentNis;
+      document.getElementById("voter-info").classList.remove("hidden");
+
+      // Perpindahan Tampilan ke Step 2
+      document.getElementById("step-login").classList.add("hidden");
+      document.getElementById("step-voting").classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    // Modal Konfirmasi
+    function openModal(paslonId, paslonName) {
+      selectedPaslonId = paslonId;
+      selectedPaslonName = paslonName;
+
+      document.getElementById("modal-paslon-number").innerText = `Paslon ${paslonId}`;
+      document.getElementById("modal-paslon-name").innerText = paslonName;
+      document.getElementById("modal-confirm").classList.remove("hidden");
+    }
+
+    function closeModal() {
+      document.getElementById("modal-confirm").classList.add("hidden");
+      selectedPaslonId = "";
+      selectedPaslonName = "";
+    }
+
+    // Eksekusi Voting
+    function submitVote() {
+      if (!currentNis || !selectedPaslonId) return;
+
+      // 1. Catat NIS yang telah memilih
+      const votedList = getVotedList();
+      votedList.push(currentNis);
+      localStorage.setItem("voted_nis_list", JSON.stringify(votedList));
+
+      // 2. Tambah Suara Paslon
+      const voteCounts = getVoteCounts();
+      voteCounts[selectedPaslonId] = (voteCounts[selectedPaslonId] || 0) + 1;
+      localStorage.setItem("vote_counts", JSON.stringify(voteCounts));
+
+      // 3. Tutup Modal & Pindah ke Layar Hasil
+      closeModal();
+      document.getElementById("step-voting").classList.add("hidden");
+      document.getElementById("step-result").classList.remove("hidden");
+
+      // 4. Render Statistik Quick Count
+      updateQuickCount();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    // Render Quick Count & Progress Bar
+    function updateQuickCount() {
+      const voteCounts = getVoteCounts();
+      const totalVotes = (voteCounts["01"] || 0) + (voteCounts["02"] || 0) + (voteCounts["03"] || 0);
+
+      document.getElementById("total-votes").innerText = totalVotes;
+
+      const p1 = voteCounts["01"] || 0;
+      const p2 = voteCounts["02"] || 0;
+      const p3 = voteCounts["03"] || 0;
+
+      const p1Pct = totalVotes > 0 ? ((p1 / totalVotes) * 100).toFixed(1) : 0;
+      const p2Pct = totalVotes > 0 ? ((p2 / totalVotes) * 100).toFixed(1) : 0;
+      const p3Pct = totalVotes > 0 ? ((p3 / totalVotes) * 100).toFixed(1) : 0;
+
+      // Update Text Stats
+      document.getElementById("paslon1-stats").innerText = `${p1} Suara (${p1Pct}%)`;
+      document.getElementById("paslon2-stats").innerText = `${p2} Suara (${p2Pct}%)`;
+      document.getElementById("paslon3-stats").innerText = `${p3} Suara (${p3Pct}%)`;
+
+      // Update Progress Bars
+      document.getElementById("paslon1-bar").style.width = `${p1Pct}%`;
+      document.getElementById("paslon2-bar").style.width = `${p2Pct}%`;
+      document.getElementById("paslon3-bar").style.width = `${p3Pct}%`;
+    }
+
+    // Reset Sesi (Kembali ke Login)
+    function resetSession() {
+      currentNis = "";
+      document.getElementById("nis-input").value = "";
+      document.getElementById("voter-info").classList.add("hidden");
+      document.getElementById("step-result").classList.add("hidden");
+      document.getElementById("step-login").classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  </script>
+</body>
+</html>
